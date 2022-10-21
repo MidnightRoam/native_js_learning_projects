@@ -1,10 +1,14 @@
+* {
+    font-size: 26px;
+}
+
 table {
     border-collapse: collapse;
     border: 1px solid #7f7f7f;
 }
 
 table tr, td, th {
-    border: 1px solid #7f7f7f;
+    border: 3px solid #dcceea;
 }
 
 table td, th {
@@ -16,4 +20,5 @@ table th {
 }
 .header {
     font-family: Georgia;
+    font-size: 50px;
 }
