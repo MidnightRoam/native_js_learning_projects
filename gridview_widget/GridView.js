@@ -3,7 +3,7 @@ class GridView {
      * peoperties
      * @param [array] _tableClass - css classes of styles
      * @param [array] data - input data
-     * @param [array] _attribute - control output content from date input
+     * @param [array] attribute - control output content from date input
      * @param [array] _element - where to put the table
      * @param [array] _header - table header
      * @param [array] _headerClass - header css classes
@@ -14,7 +14,7 @@ class GridView {
         this._headerClass = [];
         this._tableClass = [];
         this._element = 'body';
-        this._attribute = [];
+        this.attribute = [];
     }
 
     /**
@@ -30,7 +30,7 @@ class GridView {
     }
 
     /**
-     * Method set header
+     * Method set headerClass
      */
 
     set headerClass(headerClass) {
@@ -42,12 +42,12 @@ class GridView {
     }
 
     /**
-     * Method set header
+     * Method set element
      */
 
     set element(element) {
         if (document.querySelector(element)) {
-            this._element = document.querySelector(element);
+            this._element = element;
             return true;
         }
         return false;
@@ -58,6 +58,71 @@ class GridView {
      */
 
     render() {
+        // show header
+        if (this._header != '') {
+            const header = document.createElement('h1');
+            header.textContent = this._header;
+            this._headerClass.forEach(cssClass => {
+                header.classList.add(cssClass);
+            });
+            document.querySelector(this._element).append(header);
+        }
+        // show table
+        const table = document.createElement('table');
+        this._tableClass.forEach(cssClass => {
+            table.classList.add(cssClass);
+        });
+        // create table header
+        let trHeader = document.createElement('tr');
+        for (let key in this.attribute) {
+            let th = document.createElement('th');
+            if (this.attribute[key].label) {
+                th.textContent = this.attribute[key].label;
+            } else {
+                th.textContent = key;
+            }
+            trHeader.append(th);
+        }
+        table.append(trHeader);
+        // draw table
+        for (let i = 0; i < this.data.length; i++) {
+            let dataArr = this.data[i]; // 1 date string
+            let tr = document.createElement('tr');
+            for (let key in this.attribute) {
+                let td = document.createElement('td');
+                let value = dataArr[key];
+                // Is there a function in value
+                if (this.attribute[key].value) {
+                    value = this.attribute[key].value(dataArr);
+                }
+                // attribute src
+                if (this.attribute[key].src) {
+                    td.innerHTML = value;
+                } else {
+                    td.textContent = value;
+                }
+                tr.append(td);
+            }
+            table.append(tr);
+        }
 
+        document.querySelector(this._element).append(table);
     }
 }
+
+// let gridView = new GridView();
+// gridView.header = 'Header';
+// gridView.headerClass = ['Header class'];
+// gridView.attribute = ['company', 'chef', 'country']
+// gridView.attribute = {
+//     'company': {
+//         'label': 'Company',
+//         'src': 'html',
+//     },
+//     'chef': {
+//         'label': 'Director',
+//     },
+//     'country': {
+//
+//     }
+// }
