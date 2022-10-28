@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Service Worker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <script>
+      if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('service-worker.js');
+      }
+  </script>
+    <div class="container border">
+        <p class="header border-bot">Hello stranger!</p>
+        <p class="text border-bot">This page may work in offline mode! I mean... without ethernet connection!</p>
+        <p class="answer">How it works? It's all because service worker!</p>
+    </div>
+</body>
+</html>
